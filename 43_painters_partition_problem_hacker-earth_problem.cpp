@@ -4,10 +4,10 @@ using namespace std;
 
 bool isValid(vector<int> arr, int n, int m, int maximumAllowedUnits)
 {
+    int units = 0;
+    int painter = 1;
     for (int i = 0; i < n; i++)
     {
-        int units = 0;
-        int painter = 1;
         if ((units + arr[i]) <= maximumAllowedUnits)
         {
             units += arr[i];
@@ -17,23 +17,28 @@ bool isValid(vector<int> arr, int n, int m, int maximumAllowedUnits)
             painter++;
             units = arr[i];
         }
-        return (painter > m) ? false : true;
     }
+    return (painter > m) ? false : true;
     return true;
 }
 
 int minimumTime(vector<int> arr, int n, int m)
 {
-    int start = 0;
-    int sum = 0;
-    if (m > n)
+    int start;
+    int maximum = 0;
+    for (int i = 0; i < n; i++)
     {
-        return -1;
+        maximum = max(maximum, arr[i]);
     }
-
+    start = maximum;
+    int sum = 0;
     for (int i = 0; i < n; i++)
     {
         sum += arr[i];
+    }
+    if (m > n)
+    {
+        return -1;
     }
 
     int answer, end = sum;
@@ -44,6 +49,10 @@ int minimumTime(vector<int> arr, int n, int m)
         {
             answer = mid;
             end = mid - 1;
+        }
+        else
+        {
+            start = mid + 1;
         }
     }
     return answer;
